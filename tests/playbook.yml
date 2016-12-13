@@ -1,0 +1,13 @@
+---
+- hosts: all
+
+  tasks:
+  - name: "Include SCL Role for python33"
+    include_role:
+      name: scl
+#    vars:
+#      scl_shebangs:
+#        - python33
+#      scl_packages:
+#        - { name: 'python33', state: 'latest' }
+#        - { name: 'ruby193', state: 'latest' }

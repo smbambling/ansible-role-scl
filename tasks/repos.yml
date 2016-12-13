@@ -1,0 +1,39 @@
+---
+- name: "Install libselinux-python"
+  yum:
+    name: "libselinux-python"
+    state: present
+
+- name: "Copy SCLo SIG RPM KEY"
+  become: true
+  copy:
+    src: "RPM-GPG-KEY-CentOS-SIG-SCLo"
+    dest: "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: "Import SCLo SIG RPM KEY"
+  rpm_key:
+    key: "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo"
+    state: present
+
+- name: "Manage Software collections Repository from SCLo SIG"
+  yum_repository:
+    name: "{{ ansible_distribution|lower }}-sclo-sclo"
+    file: "{{ ansible_distribution }}-SCLo-scl"
+    description: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }} - SCLo sclo"
+    baseurl: "{{ repo_sclo_sclo_baseurl }}"
+    gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo"
+    gpgcheck: yes
+    enabled: yes
+
+- name: "Manage Software collections Repository from SCLo SIG ( upstream scl only )"
+  yum_repository:
+    name: "{{ ansible_distribution|lower }}-sclo-rh"
+    file: "{{ ansible_distribution }}-SCLo-scl-rh"
+    description: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }} - SCLo rh"
+    baseurl: "{{ repo_sclo_rh_baseurl }}"
+    gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo"
+    gpgcheck: yes
+    enabled: yes

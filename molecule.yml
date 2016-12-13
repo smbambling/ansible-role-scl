@@ -1,0 +1,16 @@
+---
+---
+ansible:
+  playbook: ./tests/test.yml
+
+verifier:
+  name: serverspec
+
+docker:
+  containers:
+    - name: centos6
+      image: centos
+      image_version: 6
+    - name: centos7
+      image: centos
+      image_version: 7

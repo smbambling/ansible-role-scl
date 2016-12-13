@@ -1,0 +1,24 @@
+sudo: required
+
+language: python
+python: '2.7'
+
+# Spin off separate builds for each of the following versions of Ansible
+env:
+  - ANSIBLE_VERSION=2.2.0
+
+
+services:
+  - docker
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -o Dpkg::Options::='--force-confold' --force-yes -y docker-engine
+
+install:
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
+  - bundle install --path vendor/bundle
+
+script:
+  - bundle exec molecule test
