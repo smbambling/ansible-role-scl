@@ -1,0 +1,23 @@
+---
+# Mange SCL pips for installed Python versions
+
+- name: "Verify Python: {{ item.python_ver }} exists"
+  stat:
+    path: "/opt/rh/{{ item.python_ver }}/enable"
+  changed_when: false
+  register: scl_python_ver_result
+
+- name: "Install PIP for Python: {{ item.python_ver }}"
+  easy_install:
+    name: pip
+    executable: "/usr/bin/scl enable python33 -- easy_install"
+  when: (scl_python_ver_result.stat.exists)
+
+- name: "Install PIP: {{ item.name }} for Python: {{ item.python_ver }}"
+  pip:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
+    version: "{{ item.version | default(omit) }}"
+    executable: "/usr/bin/scl enable {{ item.python_ver }} -- pip"
+  when: (scl_python_ver_result.stat.exists)
+  become: true

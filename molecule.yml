@@ -1,10 +1,19 @@
 ---
----
 ansible:
-  playbook: ./tests/test.yml
+  playbook: tests/test.yml
 
 verifier:
   name: serverspec
+
+molecule:
+  ignore_paths:
+    - .git
+    - .vagrant
+    - .bundle
+    - .vendor
+    - .venv
+    - .molecule
+    - vendor
 
 docker:
   containers:

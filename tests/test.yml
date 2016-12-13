@@ -1,0 +1,70 @@
+---
+- hosts: all
+
+  roles:
+    - role: ansible-role-scl
+      scl_shebangs:
+        - ruby193
+        - python33
+      scl_packages:
+        - {name: 'ruby193', state: 'latest'}
+        - {name: 'python33', state: 'latest'}
+      scl_ruby_gems:
+        - {
+          ruby_ver: 'ruby193',
+          name: 'fast_github',
+          state: 'present',
+        }
+      scl_python_pips:
+        - {
+          python_ver: 'python33',
+          name: 'snakeoil',
+          state: 'present',
+        }
+
+# Examples of including roles and tasks from the SCL Role
+# using the new include_role module in Ansible 2.2+
+
+#  tasks:
+#    - name: "Add shebang script for rh-ruby22"
+#      include_role:
+#        name: ansible-role-scl
+#        tasks_from: shebangs
+#      vars:
+#        scl_shebangs:
+#          - rh-ruby22
+#
+#    - name: "Install rh-ruby22 from SCL"
+#      include_role:
+#        name: ansible-role-scl
+#        tasks_from: packages
+#      vars:
+#        scl_packages:
+#          - {name: 'rh-ruby22'}
+#
+#    - name: "Install gems for rh-ruby22"
+#      include_role:
+#        name: ansible-role-scl
+#        tasks_from: gems
+#      vars:
+#        scl_ruby_gems:
+#          - {
+#            ruby_ver: 'rh-ruby22',
+#            name: 'fast_github',
+#            state: 'present',
+#          }
+#
+#    - name: "Include SCL Role for ruby200"
+#      include_role:
+#        name: ansible-role-scl
+#      vars:
+#        scl_shebangs:
+#          - ruby200
+#        scl_packages:
+#          - {name: 'ruby200', state: 'present'}
+#        scl_ruby_gems:
+#          - {
+#            ruby_ver: 'ruby200',
+#            name: 'fast_github',
+#            state: 'present',
+#          }

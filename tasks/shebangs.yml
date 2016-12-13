@@ -1,0 +1,5 @@
+---
+- include: shebangs/shebang.yml
+  with_items: "{{ scl_shebangs }}"
+  when:
+    ({{ scl_shebangs | length > 0 }})

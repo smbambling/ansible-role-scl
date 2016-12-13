@@ -1,0 +1,18 @@
+---
+# Manage scl packages necessary for different
+# software collections
+
+# Assume RPM Key means one or more SCL repositories
+# are present
+- name: "Verify SCL Repository is avilable"
+  stat:
+    path: "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo"
+  changed_when: false
+  register: scl_repo_result
+
+- name: "Install Software Collections Package {{ item.name }}"
+  yum:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
+  become: true
+  when: (scl_repo_result.stat.exists)

@@ -1,0 +1,11 @@
+---
+engines:
+  bundler-audit:
+    enabled: true
+  fixme:
+    enabled: true
+
+ratings:
+  paths:
+    - Gemfile.lock
+    - "**.rb"

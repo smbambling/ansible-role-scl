@@ -1,0 +1,20 @@
+---
+# Mange SCL gems for installed Ruby versions
+
+- name: "Verify Ruby: {{ item.ruby_ver }} exists"
+  stat:
+    path: "/opt/rh/{{ item.ruby_ver }}/enable"
+  changed_when: false
+  register: scl_ruby_ver_result
+
+- name: "Install GEM: {{ item.name }} for Ruby: {{ item.ruby_ver }}"
+  gem:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
+    version: "{{ item.version | default(omit) }}"
+    source: "{{ item.source | default(omit) }}"
+    pre_release: "{{ item.pre_release | default('no') }}"
+    user_install: false
+    executable: "scl enable {{ item.ruby_ver }} -- gem"
+  when: (scl_ruby_ver_result.stat.exists)
+  become: true

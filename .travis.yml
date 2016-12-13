@@ -1,23 +1,39 @@
+# https://giorgos.sealabs.net/docker-cache-on-travis-and-docker-112.html
 sudo: required
 
 language: python
-python: '2.7'
+python:
+  - '2.7'
 
 # Spin off separate builds for each of the following versions of Ansible
 env:
-  - ANSIBLE_VERSION=2.2.0
-
+  global:
+    - MOLECULE_VERSION='1.15.0'
+    - DOCKER_PY_VERSION='1.10.6'
+  matrix:
+    - ANSIBLE_VERSION='latest'
+    - ANSIBLE_VERSION='2.2.0'
+    - ANSIBLE_VERSION='2.1.0'
 
 services:
   - docker
 
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -o Dpkg::Options::='--force-confold' --force-yes -y docker-engine
+  - rvm get stable --auto-dotfiles
+  - rvm default
+  - ruby -v
 
 install:
   - pip install --upgrade pip
-  - pip install -r requirements.txt
+  - if [ "$ANSIBLE_VERSION" = "latest" ]; then
+      pip install ansible;
+    else
+      pip install ansible==$ANSIBLE_VERSION;
+    fi
+  - ansible --version
+  - pip install molecule==$MOLECULE_VERSION
+  - pip install docker-py==$DOCKER_PY_VERSION
+  - gem install bundler
   - bundle install --path vendor/bundle
 
 script:

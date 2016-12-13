@@ -1,0 +1,10 @@
+---
+# Include Additional Shebang Scripts
+- name: "Create shebang scripts for {{ item }}"
+  template:
+    src: shebangs.j2
+    dest: "/usr/local/bin/scl-shebang-{{ item }}"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  become: true

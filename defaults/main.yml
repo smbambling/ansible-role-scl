@@ -7,3 +7,4 @@ repo_sclo_rh_baseurl:
 scl_shebangs: []
 scl_packages: []
 scl_ruby_gems: []
+scl_python_pips: []
