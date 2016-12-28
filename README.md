@@ -92,11 +92,11 @@ Example Playbook(s)
 
    The variable `scl_shebangs` refers to the files created in `/usr/local/bin` called `scl-shebang-[binary name]` that can be used for inclusion in scripts. For example put the following in the shebang line of a script written in ruby 2.2 
    
-   The script will properly source all necessary environment variables for the desired ruby environment without having to declare `scl enable rh-ruby22 -- ruby my_script.rb` each time `my_script.rb` is run
-  
    ```shell
    #!/usr/local/bin/scl-shebang-rh-ruby22
    ```
+   
+   The script will properly source all necessary environment variables for the desired ruby environment without having to declare `scl enable rh-ruby22 -- ruby my_script.rb` each time `my_script.rb` is run
 
    ```yaml
    roles:
@@ -107,10 +107,115 @@ Example Playbook(s)
     ```
 
 1. Install SCL collections/packages
+   
+   Each entry requires a hash with: 
+     - `name`(required)
+     - `state`(optional)[defaults: present]
+   
+   ```yaml
+   roles:
+    - role: ansible-role-scl
+      scl_packages:
+        - {name: 'rh-ruby22', state: 'latest'}
+        - {name: 'python33', state: 'latest'}
+   ```
 1. Manage SCL Ruby GEMs
+
+   Each entry requires a hash with:
+     - `ruby_ver`(required)
+     - `name`(required)
+     - `state`(optional)[defaults: present]
+     - `version`(optional)[defaults: omit]
+    
+   ```yaml
+   roles:
+    - role: ansible-role-scl
+      scl_python_pips
+        - {
+          python_ver: 'python33',
+          name: 'snakeoil',
+          state: 'present',
+        }
+   ```
 1. Manage SCL Python PIPs
+
+   Each entry requires a hash with:
+     - `python_ver`(required)
+     - `name`(required)
+     - `state`(optional)[defaults: present]
+     - `version`(optional)[defaults: omit]
+     - `source`(optoinal)[defaults: omit]
+     - `pre_release`(optional)[defaults: no]
+    
+   ```yaml
+   roles:
+    - role: ansible-role-scl
+      scl_ruby_gems
+        - {
+          ruby_ver: 'ruby193',
+          name: 'fast_github',
+          state: 'present',
+        }
+   ```
 1. AIO Example
+
+   ```yaml
+   - role: ansible-role-scl
+      scl_shebangs:
+        - ruby193
+        - python33
+      scl_packages:
+        - {name: 'ruby193', state: 'latest'}
+        - {name: 'python33', state: 'latest'}
+      scl_ruby_gems:
+        - {
+          ruby_ver: 'ruby193',
+          name: 'fast_github',
+          state: 'present',
+        }
+      scl_python_pips:
+        - {
+          python_ver: 'python33',
+          name: 'snakeoil',
+          state: 'present',
+        }
+   ```
 1. Ansible `include_role` notation(s)
+
+   Examples of including roles and tasks from the SCL Role using the new include_role module in Ansible 2.2+
+   
+   These examples give Ansible a more modular, class like feel which allows portions of a role to be included inside of additional playbooks with less duplication
+
+   ```yaml
+   tasks:
+     - name: "Add shebang script for rh-ruby22"
+       include_role:
+         name: ansible-role-scl
+         tasks_from: shebangs
+       vars:
+         scl_shebangs:
+           - rh-ruby22
+   
+     - name: "Install rh-ruby22 from SCL"
+       include_role:
+         name: ansible-role-scl
+         tasks_from: packages
+       vars:
+         scl_packages:
+           - {name: 'rh-ruby22'}
+   
+     - name: "Install gems for rh-ruby22"
+       include_role:
+         name: ansible-role-scl
+         tasks_from: gems
+       vars:
+         scl_ruby_gems:
+           - {
+             ruby_ver: 'rh-ruby22',
+             name: 'fast_github',
+             state: 'present',
+           }
+   ```
 
 Development / Contributing
 --------------------------
