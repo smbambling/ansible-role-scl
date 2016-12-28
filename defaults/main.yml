@@ -1,10 +1,16 @@
 ---
 scl_manage_repo: yes
+
 scl_repo_sclo_sclo_baseurl:
   "http://mirror.centos.org/centos/{{ ansible_distribution_major_version }}/sclo/$basearch/sclo/"
+
 scl_repo_sclo_rh_baseurl:
   "http://mirror.centos.org/centos/{{ ansible_distribution_major_version }}/sclo/$basearch/rh"
+
 scl_shebangs: []
+
 scl_packages: []
+
 scl_ruby_gems: []
+
 scl_python_pips: []
