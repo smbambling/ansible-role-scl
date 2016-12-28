@@ -89,6 +89,23 @@ Example Playbook(s)
         "http://mylocalmirror.local/centos/6/sclo/$basearch/sclo/"
   ```
 1. Install Shebang scripts for SCL installed binaries
+
+   The variable `scl_shebangs` refers to the files created in `/usr/local/bin` called `scl-shebang-[binary name]` that can be used for inclusion in scripts. For example put the following in the shebang line of a script written in ruby 2.2 
+   
+   The script will properly source all necessary environment variables for the desired ruby environment without having to declare `scl enable rh-ruby22 -- ruby my_script.rb` each time `my_script.rb` is run
+  
+   ```shell
+   #!/usr/local/bin/scl-shebang-rh-ruby22
+   ```
+
+   ```yaml
+   roles:
+    - role: ansible-role-scl
+      scl_shebangs:
+        - rh-ruby22
+        - python33
+    ```
+
 1. Install SCL collections/packages
 1. Manage SCL Ruby GEMs
 1. Manage SCL Python PIPs
