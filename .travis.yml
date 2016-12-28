@@ -14,7 +14,6 @@ env:
     - ANSIBLE_VERSION='latest'
     - ANSIBLE_VERSION='2.2.0'
     - ANSIBLE_VERSION='2.1.0'
-    - ANSIBLE_VERSION='2.0.0'
 
 services:
   - docker
