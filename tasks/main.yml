@@ -1,7 +1,7 @@
 ---
 # Manage Repositories
 - include: repos.yml
-  when: ({{ scl_anage_repo }})
+  when: ({{ scl_manage_repo }})
 
 # This shebang line is
 # the overarching 'enable'
