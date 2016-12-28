@@ -23,7 +23,7 @@
     name: "{{ ansible_distribution|lower }}-sclo-sclo"
     file: "{{ ansible_distribution }}-SCLo-scl"
     description: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }} - SCLo sclo"
-    baseurl: "{{ repo_sclo_sclo_baseurl }}"
+    baseurl: "{{ scl_repo_sclo_sclo_baseurl }}"
     gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo"
     gpgcheck: yes
     enabled: yes
@@ -33,7 +33,7 @@
     name: "{{ ansible_distribution|lower }}-sclo-rh"
     file: "{{ ansible_distribution }}-SCLo-scl-rh"
     description: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }} - SCLo rh"
-    baseurl: "{{ repo_sclo_rh_baseurl }}"
+    baseurl: "{{ scl_repo_sclo_rh_baseurl }}"
     gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo"
     gpgcheck: yes
     enabled: yes
