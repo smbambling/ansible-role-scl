@@ -107,7 +107,9 @@ Example Playbook(s)
         - python33
     ```
 
-1. Install SCL collections/packages
+1. Install SCL collections/packages via [yum module](http://docs.ansible.com/ansible/yum_module.html)
+
+   > Pre-compiled Gems/PIPs packages (RPMs) can be installed via the scl_packages variable.
    
    Each entry requires a hash with: 
      - `name`(required)
@@ -120,7 +122,7 @@ Example Playbook(s)
         - {name: 'rh-ruby22', state: 'latest'}
         - {name: 'python33', state: 'latest'}
    ```
-1. Manage SCL Ruby GEMs
+1. Manage SCL Python PIPs via [pip module](http://docs.ansible.com/ansible/pip_module.html)
 
    Each entry requires a hash with:
      - `ruby_ver`(required)
@@ -138,7 +140,7 @@ Example Playbook(s)
           state: 'present',
         }
    ```
-1. Manage SCL Python PIPs
+1. Manage SCL Ruby GEMs via [gem module](http://docs.ansible.com/ansible/gem_module.html)
 
    Each entry requires a hash with:
      - `python_ver`(required)
