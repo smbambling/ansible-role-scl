@@ -4,9 +4,10 @@
   roles:
     - role: ansible-role-scl
       scl_shebangs:
+        - {collection: 'ruby193'}
         - {collection: 'ruby193', command: 'ruby'}
+        - {collection: 'python33'}
         - {collection: 'python33', command: 'python'}
-        - python33
       scl_packages:
         - {name: 'ruby193', state: 'latest'}
         - {name: 'python33', state: 'latest'}
