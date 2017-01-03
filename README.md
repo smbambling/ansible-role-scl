@@ -43,8 +43,8 @@ scl_repo_sclo_rh_baseurl:
   
 # Array of Shebang scripts to create for SCL installed binaries
 scl_shebangs:
-  - ruby193
-  - python33
+  - {collection: 'ruby193', command: 'ruby'}
+  - {collection: 'python33', command: 'python'}
 
 # Array of Collections/Packages to install via SCL
 scl_packages:
@@ -91,10 +91,10 @@ Example Playbook(s)
   ```
 1. Install Shebang scripts for SCL installed binaries
 
-   The variable `scl_shebangs` refers to the files created in `/usr/local/bin` called `scl-shebang-[binary name]` that can be used for inclusion in scripts. For example put the following in the shebang line of a script written in ruby 2.2 
+   The variable `scl_shebangs` refers to the files created in `/usr/local/bin` called `scl-shebang-[binary name]-[command name]` that can be used for inclusion in scripts. For example put the following in the shebang line of a script written in ruby 2.2 
    
    ```shell
-   #!/usr/local/bin/scl-shebang-rh-ruby22
+   #!/usr/local/bin/scl-shebang-rh-ruby22-ruby  
    ```
    
    The script will properly source all necessary environment variables for the desired ruby environment without having to declare `scl enable rh-ruby22 -- ruby my_script.rb` each time `my_script.rb` is run
@@ -103,8 +103,8 @@ Example Playbook(s)
    roles:
     - role: ansible-role-scl
       scl_shebangs:
-        - rh-ruby22
-        - python33
+        - {collection: 'rh-ruby22', command: 'ruby'}
+        - {collection: 'python33', command: 'ruby'}
     ```
 
 1. Install SCL collections/packages via [yum module](http://docs.ansible.com/ansible/yum_module.html)
@@ -165,8 +165,8 @@ Example Playbook(s)
    ```yaml
    - role: ansible-role-scl
       scl_shebangs:
-        - ruby193
-        - python33
+        - {collection: 'ruby193', command: 'ruby'}
+        - {collection: 'python33', command: 'python'}
       scl_packages:
         - {name: 'ruby193', state: 'latest'}
         - {name: 'python33', state: 'latest'}
@@ -197,7 +197,7 @@ Example Playbook(s)
          tasks_from: shebangs
        vars:
          scl_shebangs:
-           - rh-ruby22
+           - {collection: 'rh-ruby22', command: 'ruby'}
    
      - name: "Install rh-ruby22 from SCL"
        include_role:
