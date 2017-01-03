@@ -4,7 +4,8 @@
   roles:
     - role: ansible-role-scl
       scl_shebangs:
-        - ruby193
+        - {collection: 'ruby193', command: 'ruby'}
+        - {collection: 'python33', command: 'python'}
         - python33
       scl_packages:
         - {name: 'ruby193', state: 'latest'}
@@ -32,7 +33,7 @@
 #        tasks_from: shebangs
 #      vars:
 #        scl_shebangs:
-#          - rh-ruby22
+#          - {collection: 'rh-ruby22', command: 'ruby'}
 #
 #    - name: "Install rh-ruby22 from SCL"
 #      include_role:
@@ -59,7 +60,7 @@
 #        name: ansible-role-scl
 #      vars:
 #        scl_shebangs:
-#          - ruby200
+#          - {collection: 'ruby200', command: 'ruby'}
 #        scl_packages:
 #          - {name: 'ruby200', state: 'present'}
 #        scl_ruby_gems:

@@ -1,2 +1,3 @@
-#!/usr/local/bin/scl-shebang enable {{ item }} -- bash
-$@
+#!/bin/sh
+source scl_source enable {{ item['collection'] }}
+exec {{ item['command'] }} "$@"

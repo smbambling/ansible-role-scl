@@ -1,9 +1,18 @@
 ---
+- name: "Set shebang file name: collection"
+  set_fact:
+    _shebang_filename: "{{ item['collection'] }}"
+
+- name: "Set shebang file name: collection + command"
+  set_fact:
+    _shebang_filename: "{{ item['collection'] }}-{{ item['command'] }}"
+  when: item['command'] is defined
+
 # Include Additional Shebang Scripts
 - name: "Create shebang scripts for {{ item }}"
   template:
     src: shebangs.j2
-    dest: "/usr/local/bin/scl-shebang-{{ item }}"
+    dest: "/usr/local/bin/scl-shebang-{{ _shebang_filename }}"
     owner: "root"
     group: "root"
     mode: "0755"
