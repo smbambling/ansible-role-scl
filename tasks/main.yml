@@ -3,8 +3,8 @@
 - include: repos.yml
   when: ({{ scl_manage_repo }})
 
-- include: shebangs.yml
-  when: ({{ scl_shebangs | length > 0 }})
+- include: wrappers.yml
+  when: ({{ scl_wrappers | length > 0 }})
 
 - include: packages.yml
   when: ({{ scl_packages | length > 0 }})

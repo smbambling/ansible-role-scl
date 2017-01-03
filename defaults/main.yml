@@ -7,7 +7,7 @@ scl_repo_sclo_sclo_baseurl:
 scl_repo_sclo_rh_baseurl:
   "http://mirror.centos.org/centos/{{ ansible_distribution_major_version }}/sclo/$basearch/rh"
 
-scl_shebangs: []
+scl_wrappers: []
 
 scl_packages: []
 

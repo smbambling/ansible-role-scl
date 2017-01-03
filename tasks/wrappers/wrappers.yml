@@ -1,0 +1,19 @@
+---
+- name: "Set wrapper file name: collection"
+  set_fact:
+    _wrapper_filename: "scl-wrapper-{{ item.collection }}"
+
+- name: "Set wrapper file name: collection + command"
+  set_fact:
+    _wrapper_filename: "scl-shebang-{{ item.collection }}"
+  when: item['command'] is defined
+
+# Include Additional Shebang Scripts
+- name: "Create wrapper scripts for {{ item }}"
+  template:
+    src: wrappers.j2
+    dest: "/usr/local/bin/{{ _wrapper_filename }}"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  become: true
