@@ -3,18 +3,6 @@
 - include: repos.yml
   when: ({{ scl_manage_repo }})
 
-# This shebang line is
-# the overarching 'enable'
-# needed for all other
-# package shebangs
-- name: "Copy SCL Shebang Script"
-  copy:
-    src: "scl_shebang"
-    dest: "/usr/local/bin/scl-shebang"
-    owner: "root"
-    group: "root"
-    mode: "0755"
-
 - include: shebangs.yml
   when: ({{ scl_shebangs | length > 0 }})
 
