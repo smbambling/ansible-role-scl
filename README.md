@@ -18,7 +18,7 @@ Table of Contents
 
 Overview
 --------
-This role installs and manages the SCL Software Collections repository, packages/collections for Fedora, CentOS, and Scientific Linux. Addtionally it can create shebang wrapper scripts to make calling the SCL collections binaries
+This role installs and manages the SCL Software Collections repository, packages/collections for Fedora, CentOS, and Scientific Linux. Addtionally it can create wrapper wrapper scripts to make calling the SCL collections binaries
 
 Requirements
 ------------
@@ -41,8 +41,8 @@ scl_repo_sclo_sclo_baseurl:
 scl_repo_sclo_rh_baseurl:
   "http://mirror.centos.org/centos/{{ ansible_distribution_major_version }}/sclo/$basearch/rh"
   
-# Array of Shebang scripts to create for SCL installed binaries
-scl_shebangs:
+# Array of wrapper scripts to create for SCL installed binaries
+scl_wrappers:
   - {collection: 'ruby193', command: 'ruby'}
   - {collection: 'python33', command: 'python'}
 
@@ -89,12 +89,28 @@ Example Playbook(s)
       scl_repo_sclo_sclo_baseurl:
         "http://mylocalmirror.local/centos/6/sclo/$basearch/sclo/"
   ```
-1. Install Shebang scripts for SCL installed binaries
+1. Install wrapper scripts for SCL installed binaries
 
-   The variable `scl_shebangs` refers to the files created in `/usr/local/bin` called `scl-shebang-[binary name]-[command name]` that can be used for inclusion in scripts. For example put the following in the shebang line of a script written in ruby 2.2 
+   The variable `scl_wrappers` generates wrapper/shebang scripts in `/usr/local/bin`:
+   
+   Each entry requires a hash with:
+     - `collection`(required)
+     - `command`(optional)
+   
+   > If the command key is omited an scl **wrapper** script will be created
+   
+   `scl-wrappper-[collection name]` that can be used to call any command with with the collection sourced via SCL. For example listsing all the PIPs installed under SCL python33
    
    ```shell
-   #!/usr/local/bin/scl-shebang-rh-ruby22-ruby  
+   scl-wrapper-python33 pip list
+   ```
+   
+   > If the command key is set an scl **shebang** script will be created that points to the command/binary specified.
+   
+   `scl-shebang-[collection name]` that can be used for inclusion in scripts. For example put the following in the wrapper line of a script written in ruby 2.2
+   
+   ```shell
+   #!/usr/local/bin/scl-shebang-rh-ruby22
    ```
    
    The script will properly source all necessary environment variables for the desired ruby environment without having to declare `scl enable rh-ruby22 -- ruby my_script.rb` each time `my_script.rb` is run
@@ -102,7 +118,7 @@ Example Playbook(s)
    ```yaml
    roles:
     - role: ansible-role-scl
-      scl_shebangs:
+      scl_wrappers:
         - {collection: 'rh-ruby22', command: 'ruby'}
         - {collection: 'python33', command: 'ruby'}
     ```
@@ -164,7 +180,7 @@ Example Playbook(s)
 
    ```yaml
    - role: ansible-role-scl
-      scl_shebangs:
+      scl_wrappers:
         - {collection: 'ruby193', command: 'ruby'}
         - {collection: 'python33', command: 'python'}
       scl_packages:
@@ -191,12 +207,12 @@ Example Playbook(s)
 
    ```yaml
    tasks:
-     - name: "Add shebang script for rh-ruby22"
+     - name: "Add wrapper script for rh-ruby22"
        include_role:
          name: ansible-role-scl
-         tasks_from: shebangs
+         tasks_from: wrappers
        vars:
-         scl_shebangs:
+         scl_wrappers:
            - {collection: 'rh-ruby22', command: 'ruby'}
    
      - name: "Install rh-ruby22 from SCL"
