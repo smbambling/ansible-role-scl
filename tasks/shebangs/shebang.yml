@@ -1,11 +1,11 @@
 ---
 - name: "Set shebang file name: collection"
   set_fact:
-    _shebang_filename: "{{ item['collection'] }}"
+    _shebang_filename: "{{ item.collection }}"
 
 - name: "Set shebang file name: collection + command"
   set_fact:
-    _shebang_filename: "{{ item['collection'] }}-{{ item['command'] }}"
+    _shebang_filename: "{{ item.collection }}-{{ item.command }}"
   when: item['command'] is defined
 
 # Include Additional Shebang Scripts
