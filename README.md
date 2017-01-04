@@ -120,7 +120,7 @@ Example Playbook(s)
     - role: ansible-role-scl
       scl_wrappers:
         - {collection: 'rh-ruby22', command: 'ruby'}
-        - {collection: 'python33', command: 'ruby'}
+        - {collection: 'python33', command: 'python'}
     ```
 
 1. Install SCL collections/packages via [yum module](http://docs.ansible.com/ansible/yum_module.html)
