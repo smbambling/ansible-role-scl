@@ -1,3 +1,7 @@
 #!/bin/sh
 source scl_source enable {{ item.collection }}
-exec {{ item.collection }} "$@"
+{% if item.command is defined %}
+exec {{ item.command }} "$@"
+{% else %}
+exec "$@"
+{% endif %}
