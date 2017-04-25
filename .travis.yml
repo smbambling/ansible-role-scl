@@ -9,7 +9,7 @@ python:
 env:
   global:
     - MOLECULE_VERSION='1.24.0'
-    - DOCKER_PY_VERSION='1.10.6'
+    - DOCKER_VERSION='2.2.1'
   matrix:
     - ANSIBLE_VERSION='latest'
     - ANSIBLE_VERSION='2.2.0'
@@ -32,7 +32,7 @@ install:
     fi
   - ansible --version
   - pip install molecule==$MOLECULE_VERSION
-  - pip install docker-py==$DOCKER_PY_VERSION
+  - pip install docker==$DOCKER_VERSION
   - gem install bundler
   - bundle install --path vendor/bundle
 
