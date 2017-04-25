@@ -8,7 +8,7 @@ python:
 # Spin off separate builds for each of the following versions of Ansible
 env:
   global:
-    - MOLECULE_VERSION='1.15.0'
+    - MOLECULE_VERSION='1.24.0'
     - DOCKER_PY_VERSION='1.10.6'
   matrix:
     - ANSIBLE_VERSION='latest'
