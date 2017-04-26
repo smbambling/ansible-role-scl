@@ -1,5 +1,6 @@
 ---
 - name: "Install libselinux-python"
+  become: true
   yum:
     name: "libselinux-python"
     state: present
