@@ -15,11 +15,13 @@
     mode: "0644"
 
 - name: "Import SCLo SIG RPM KEY"
+  become: true
   rpm_key:
     key: "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo"
     state: present
 
 - name: "Manage Software collections Repository from SCLo SIG"
+  become: true
   yum_repository:
     name: "{{ ansible_distribution|lower }}-sclo-sclo"
     file: "{{ ansible_distribution }}-SCLo-scl"
@@ -30,6 +32,7 @@
     enabled: yes
 
 - name: "Manage Software collections Repository from SCLo SIG ( upstream scl only )"
+  become: true
   yum_repository:
     name: "{{ ansible_distribution|lower }}-sclo-rh"
     file: "{{ ansible_distribution }}-SCLo-scl-rh"
