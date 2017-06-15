@@ -11,8 +11,8 @@
   register: scl_repo_result
 
 - name: "Install Software Collections Package {{ item.name }}"
+  become: true
   yum:
     name: "{{ item.name }}"
     state: "{{ item.state | default('present') }}"
-  become: true
   when: (scl_repo_result.stat.exists)

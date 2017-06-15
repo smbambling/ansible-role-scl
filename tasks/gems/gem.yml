@@ -8,6 +8,7 @@
   register: scl_ruby_ver_result
 
 - name: "Install GEM: {{ item.name }} for Ruby: {{ item.ruby_ver }}"
+  become: true
   gem:
     name: "{{ item.name }}"
     state: "{{ item.state | default('present') }}"
@@ -17,4 +18,3 @@
     user_install: false
     executable: "scl enable {{ item.ruby_ver }} -- gem"
   when: (scl_ruby_ver_result.stat.exists)
-  become: true
