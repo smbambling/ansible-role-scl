@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cmd_list=('virtualenv', 'docker')
+cmd_list=('virtualenv' 'docker')
 
 # Function to check if referenced command exists
 cmd_exists() {
