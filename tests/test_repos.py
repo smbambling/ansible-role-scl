@@ -12,13 +12,10 @@ def test_file_rpm_gpg_key_centos_sig_sclo(host):
     '644' == file.mode
 
 
-def test_yumrepo_sclo_sclo(host):
+def test_yumrepo_sclo(host):
     output = host.check_output('yum repolist all')
     assert 'centos-sclo-sclo' in output
     assert 'enabled' in output
 
-
-def test_yumrepo_sclo_rh(host):
-    output = host.check_output('yum repolist all')
     assert 'centos-sclo-rh' in output
     assert 'enabled' in output
