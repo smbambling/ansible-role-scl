@@ -7,5 +7,6 @@ engines:
 
 ratings:
   paths:
-    - Gemfile.lock
-    - "**.rb"
+    - "**.py"
+    - "**.md"
+    - "**.yml"
