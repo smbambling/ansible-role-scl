@@ -5,6 +5,7 @@ engines:
     config:
       languages:
         - python
+        - shell
     exclude_paths:
       # duplicate structures in testinfra files
       - tests/*.py
@@ -24,3 +25,4 @@ ratings:
     - "**.py"
     - "**.md"
     - "**.yml"
+    - "**.sh"
