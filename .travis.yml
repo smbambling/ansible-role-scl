@@ -1,3 +1,4 @@
+---
 # https://giorgos.sealabs.net/docker-cache-on-travis-and-docker-112.html
 sudo: required
 
@@ -10,6 +11,7 @@ env:
   global:
     - MOLECULE_VERSION='1.25.0'
     - DOCKER_VERSION='2.2.1'
+    - TESTINFRA_VERSION='1.6.4'
   matrix:
     - ANSIBLE_VERSION='latest'
     - ANSIBLE_VERSION='2.3.0'
@@ -18,11 +20,6 @@ env:
 
 services:
   - docker
-
-before_install:
-  - rvm get stable --auto-dotfiles
-  - rvm default
-  - ruby -v
 
 install:
   - pip install --upgrade pip
@@ -34,8 +31,7 @@ install:
   - ansible --version
   - pip install molecule==$MOLECULE_VERSION
   - pip install docker==$DOCKER_VERSION
-  - gem install bundler
-  - bundle install --path vendor/bundle
+  - pip install testinfra==$TESTINFRA_VERSION
 
 script:
-  - bundle exec molecule test
+  - molecule test

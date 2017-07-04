@@ -3,7 +3,7 @@ ansible:
   playbook: tests/test.yml
 
 verifier:
-  name: serverspec
+  name: testinfra
 
 molecule:
   ignore_paths:
