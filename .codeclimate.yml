@@ -5,6 +5,9 @@ engines:
     config:
       languages:
       - python
+    exclude_paths:
+    # duplicate structures in testinfra files
+    - tests/
   fixme:
     enabled: true
   markdownlint:
