@@ -7,7 +7,7 @@ engines:
       - python
     exclude_paths:
     # duplicate structures in testinfra files
-    - tests/
+    - tests/*.py
   fixme:
     enabled: true
   markdownlint:
