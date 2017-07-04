@@ -4,10 +4,10 @@ engines:
     enabled: true
     config:
       languages:
-      - python
+        - python
     exclude_paths:
-    # duplicate structures in testinfra files
-    - tests/*.py
+      # duplicate structures in testinfra files
+      - tests/*.py
   fixme:
     enabled: true
   markdownlint:
@@ -16,6 +16,8 @@ engines:
     enabled: true
   radon:
     enabled: true
+    exclude_paths:
+      - tests/*.py
 
 ratings:
   paths:
