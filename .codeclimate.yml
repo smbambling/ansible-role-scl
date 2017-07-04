@@ -19,6 +19,8 @@ engines:
     enabled: true
     exclude_paths:
       - tests/*.py
+  shellcheck:
+    enabled: true
 
 ratings:
   paths:
