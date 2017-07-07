@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-cmd_list=('virtualenv' 'docker')
+cmd_list=(
+  "virtualenv-2.7 virtualenv-2.5 virtualenv"
+  "docker docker.io"
+)
 
 # Function to check if referenced command exists
 cmd_exists() {
@@ -8,18 +11,30 @@ cmd_exists() {
     echo 'WARNING: No command argument was passed to verify exists'
   fi
 
-  cmd=${1}
-  command -v "${cmd}" >&/dev/null # portable 'which'
-  rc=$?
-  if [ "${rc}" != "0" ]; then
-    echo "Unable to find ${cmd} in your PATH"
+  #cmds=($(echo "${1}"))
+  cmds=($(printf '%s' "${1}"))
+  fail_counter=0
+  for cmd in "${cmds[@]}"; do
+    command -v "${cmd}" >&/dev/null # portable 'which'
+    rc=$?
+    if [ "${rc}" != "0" ]; then
+      fail_counter=$((fail_counter+1))
+    fi
+  done
+
+  if [ "${fail_counter}" -ge "${#cmds[@]}" ]; then
+    echo "Unable to find one of the required commands [${cmds[*]}] in your PATH"
     return 1
   fi
 }
 
 # Verify that referenced commands exist on the system
 for cmd in "${cmd_list[@]}"; do
-  cmd_exists "$cmd"
+  cmd_exists "${cmd[@]}"
+  # shellcheck disable=SC2181
+  if [ $? -ne 0 ]; then
+    return $?
+  fi
 done
 
 # Test whether or not we can talk to the docker daemon
