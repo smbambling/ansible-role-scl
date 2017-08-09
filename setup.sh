@@ -81,7 +81,7 @@ fi
 
 # shellcheck disable=SC1091
 # shellcheck source=./venv/bin/activate
-source "${virtualenv_path}/bin/activate"
+source ./.venv/bin/activate
 pip install -U pip
 pip install -r requirements.txt --upgrade
 
