@@ -20,7 +20,7 @@
       scl_python_pips:
         - {
           python_ver: 'python33',
-          name: 'snakeoil',
+          name: 'travis',
           state: 'present',
         }
 
