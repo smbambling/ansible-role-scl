@@ -8,7 +8,6 @@ env:
   - DOCKER_VERSION='2.2.1'
   - TESTINFRA_VERSION='1.6.4'
   matrix:
-  - ANSIBLE_VERSION='latest'
   - ANSIBLE_VERSION='2.3.0'
   - ANSIBLE_VERSION='2.2.0'
   - ANSIBLE_VERSION='2.1.0'
@@ -16,8 +15,7 @@ services:
 - docker
 install:
 - pip install --upgrade pip
-- if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible; else pip install
-  ansible==$ANSIBLE_VERSION; fi
+- pip install ansible==$ANSIBLE_VERSION
 - ansible --version
 - pip install molecule==$MOLECULE_VERSION
 - pip install docker==$DOCKER_VERSION
