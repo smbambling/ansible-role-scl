@@ -12,7 +12,7 @@
   easy_install:
     name: pip
     executable: "/usr/bin/scl enable {{ item.python_ver }} -- easy_install"
-  when: (scl_python_ver_result.stat.exists)
+  when: scl_python_ver_result.stat.exists
 
 - name: "Install PIP: {{ item.name }} for Python: {{ item.python_ver }}"
   become: true
@@ -21,4 +21,4 @@
     state: "{{ item.state | default('present') }}"
     version: "{{ item.version | default(omit) }}"
     executable: "/usr/bin/scl enable {{ item.python_ver }} -- pip"
-  when: (scl_python_ver_result.stat.exists)
+  when: scl_python_ver_result.stat.exists

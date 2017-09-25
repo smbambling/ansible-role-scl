@@ -1,5 +1,4 @@
 ---
 - include: wrappers/wrapper.yml
   with_items: "{{ scl_wrappers }}"
-  when:
-    ( scl_wrappers | length > 0 )
+  when: scl_wrappers | length > 0
