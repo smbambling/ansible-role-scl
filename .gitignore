@@ -154,3 +154,6 @@ ENV/
 
 ### Molecule ###
 **/.molecule
+
+### IntelliJ ###
+.idea/
