@@ -17,7 +17,7 @@
     pre_release: "{{ item.pre_release | default('no') }}"
     user_install: false
     executable: "scl enable {{ item.ruby_ver }} -- gem"
-  when: (scl_ruby_ver_result.stat.exists)
+  when: scl_ruby_ver_result.stat.exists
   environment:
     http_proxy: "{{ item.http_proxy | default('') }}"
     https_proxy: "{{ item.https_proxy | default('') }}"

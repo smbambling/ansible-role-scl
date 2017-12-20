@@ -1,5 +1,4 @@
 ---
 - include: pips/pip.yml
   with_items: "{{ scl_python_pips }}"
-  when:
-    ( scl_python_pips | length > 0 )
+  when: scl_python_pips | length > 0

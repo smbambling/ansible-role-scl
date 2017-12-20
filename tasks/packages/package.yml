@@ -15,4 +15,4 @@
   yum:
     name: "{{ item.name }}"
     state: "{{ item.state | default('present') }}"
-  when: (scl_repo_result.stat.exists)
+  when: scl_repo_result.stat.exists
