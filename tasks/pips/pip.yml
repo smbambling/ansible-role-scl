@@ -20,6 +20,6 @@
     name: "{{ item.name }}"
     state: "{{ item.state | default('present') }}"
     version: "{{ item.version | default(omit) }}"
-    extra_args: ""{{ item.extra_args | default(omit) }}"
+    extra_args: "{{ item.extra_args | default(omit) }}"
     executable: "/usr/bin/scl enable {{ item.python_ver }} -- pip"
   when: scl_python_ver_result.stat.exists
