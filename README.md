@@ -24,6 +24,16 @@ Requirements
 ------------
 This role requires Ansible 2.1 or higher and platform requirements are listed in the [metadata](meta/main.yml) file.
 
+Compatibility
+-------------
+
+This role has been tested against the following distributions and Ansible version:
+
+|Distribution|Ansible 2.2|Ansible 2.3|
+|------------|-----------|-----------|
+|Centos 6|yes|yes|
+|Centos 7|yes|yes|
+
 Role Variables
 --------------
 The variables that can be passed to this role and a brief description about them are as follows. (For all variables, take a look at defaults/main.yml)
