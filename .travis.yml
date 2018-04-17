@@ -12,6 +12,8 @@ env:
     - PYTEST_VERSION='3.5.0'
     - PYTEST_XDIST_VERSION='1.22.2'
   matrix:
+    - ANSIBLE_VERSION='2.5.0'
+    - ANSIBLE_VERSION='2.4.0'
     - ANSIBLE_VERSION='2.3.0'
     - ANSIBLE_VERSION='2.2.0'
 services:
