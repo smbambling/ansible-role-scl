@@ -1,4 +1,4 @@
 ---
-- include: pips/pip.yml
+- include_tasks: pips/pip.yml
   with_items: "{{ scl_python_pips }}"
   when: scl_python_pips | length > 0

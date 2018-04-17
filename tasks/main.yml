@@ -1,16 +1,16 @@
 ---
 # Manage Repositories
-- include: repos.yml
+- include_tasks: repos.yml
   when: scl_manage_repo
 
-- include: wrappers.yml
+- include_tasks: wrappers.yml
   when: scl_wrappers | length > 0
 
-- include: packages.yml
+- include_tasks: packages.yml
   when: scl_packages | length > 0
 
-- include: gems.yml
+- include_tasks: gems.yml
   when: scl_ruby_gems | length > 0
 
-- include: pips.yml
+- include_tasks: pips.yml
   when: scl_python_pips | length > 0

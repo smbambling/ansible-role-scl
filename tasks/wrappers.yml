@@ -1,4 +1,4 @@
 ---
-- include: wrappers/wrapper.yml
+- include_tasks: wrappers/wrapper.yml
   with_items: "{{ scl_wrappers }}"
   when: scl_wrappers | length > 0
