@@ -22,7 +22,7 @@ This role installs and manages the SCL Software Collections repository, packages
 
 Requirements
 ------------
-This role requires Ansible 2.1 or higher and platform requirements are listed in the [metadata](meta/main.yml) file.
+This role requires Ansible 2.2 or higher and platform requirements are listed in the [metadata](meta/main.yml) file.
 
 Compatibility
 -------------
