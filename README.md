@@ -29,10 +29,10 @@ Compatibility
 
 This role has been tested against the following distributions and Ansible version:
 
-|Distribution|Ansible 2.2|Ansible 2.3|
-|------------|-----------|-----------|
-|Centos 6|yes|yes|
-|Centos 7|yes|yes|
+|Distribution|Ansible 2.2|Ansible 2.3|Ansible 2.4|Ansible 2.5|
+|------------|-----------|-----------|-----------|-----------|
+|Centos 6|yes|yes|yes|yes|
+|Centos 7|yes|yes|yes|yes|
 
 Role Variables
 --------------
