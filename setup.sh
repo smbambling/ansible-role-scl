@@ -82,6 +82,8 @@ fi
 # shellcheck disable=SC1091
 # shellcheck source=./venv/bin/activate
 source ./.venv/bin/activate
+# Upgrade pip iva pypa, need Pip 9.0.3 or greater that supports TLSv1.2
+curl https://bootstrap.pypa.io/get-pip.py | python
 pip install -U pip
 pip install -r requirements.txt --upgrade
 

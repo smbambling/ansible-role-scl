@@ -1,0 +1,35 @@
+---
+dependency:
+  name: galaxy
+  enabled: False
+driver:
+  name: docker
+platforms:
+  - name: centos6
+    image: centos
+    image_version: 6
+  - name: centos7
+    image: centos
+    image_version: 7
+lint:
+  name: yamllint
+  enabled: False
+provisioner:
+  name: ansible
+  playbooks:
+    create: create.yml
+    converge: playbook.yml
+    destroy: destroy.yml
+  lint:
+    name: ansible-lint
+    force-color: True
+scenario:
+  name: default
+verifier:
+  name: testinfra
+  options:
+    #'junit-xml': reports/junit.xml
+    n: 5
+  lint:
+    name: flake8
+    enabled: True

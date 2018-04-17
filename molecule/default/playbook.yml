@@ -1,0 +1,29 @@
+---
+- name: CI Testing Playbook
+  hosts: all
+
+  vars:
+    scl_wrappers:
+      - {collection: 'ruby193'}
+      - {collection: 'ruby193', command: 'ruby'}
+      - {collection: 'python33'}
+      - {collection: 'python33', command: 'python'}
+    scl_packages:
+      - {name: 'ruby193', state: 'latest'}
+      - {name: 'python33', state: 'latest'}
+    scl_ruby_gems:
+      - {
+        ruby_ver: 'ruby193',
+        name: 'fast_github',
+        state: 'present',
+      }
+    scl_python_pips:
+      - {
+        python_ver: 'python33',
+        name: 'travis',
+        state: 'present',
+      }
+
+  roles:
+    - {role: ansible-role-scl}
+
