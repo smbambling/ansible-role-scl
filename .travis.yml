@@ -11,6 +11,7 @@ env:
     - TESTINFRA_VERSION='1.11.1'
     - PYTEST_VERSION='3.5.0'
     - PYTEST_XDIST_VERSION='1.22.2'
+    - PYTEST_SUGAR_VERSION='0.9.1'
   matrix:
     - ANSIBLE_VERSION='2.5.0'
     - ANSIBLE_VERSION='2.4.0'
@@ -27,6 +28,7 @@ install:
   - pip install docker-py==$DOCKER_PY_VERSION
   - pip install pytest==$PYTEST_VERSION
   - pip install pytest-xdist==$PYTEST_XDIST_VERSION
+  - pip install pytest-sugar==$PYTEST_SUGAR_VERSION
   - pip install testinfra==$TESTINFRA_VERSION
 script:
   - molecule test
