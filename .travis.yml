@@ -5,10 +5,10 @@ python:
   - '2.7'
 env:
   global:
-    - MOLECULE_VERSION='2.12.1'
-    - DOCKER_VERSION='2.2.1'
+    - MOLECULE_VERSION='2.13.1'
+    - DOCKER_VERSION='2.4.2'
     - DOCKER_PY_VERSION='1.10.6'
-    - TESTINFRA_VERSION='1.11.1'
+    - TESTINFRA_VERSION='1.12.0'
     - PYTEST_VERSION='3.5.0'
     - PYTEST_XDIST_VERSION='1.22.2'
     - PYTEST_SUGAR_VERSION='0.9.1'
@@ -19,6 +19,10 @@ env:
     - ANSIBLE_VERSION='2.2.0'
 services:
   - docker
+before_install:
+  # Enable IPv6 support for Docker on Travis CI
+  - echo '{"ipv6":true,"fixed-cidr-v6":"2001:db8:1::/64"}' | sudo tee /etc/docker/daemon.json
+  - sudo service docker restart
 install:
   - pip install --upgrade pip
   - pip install ansible==$ANSIBLE_VERSION
