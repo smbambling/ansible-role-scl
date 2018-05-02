@@ -6,11 +6,15 @@ driver:
   name: docker
 platforms:
   - name: centos6
-    image: centos
-    image_version: 6
+    image: centos:centos6
   - name: centos7
-    image: centos
-    image_version: 7
+    image: centos:centos7
+    privileged: True
+    command: '/usr/lib/systemd/systemd'
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 lint:
   name: yamllint
   enabled: False
