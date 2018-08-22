@@ -4,22 +4,22 @@
 
   vars:
     scl_wrappers:
-      - {collection: 'ruby193'}
-      - {collection: 'ruby193', command: 'ruby'}
-      - {collection: 'python33'}
-      - {collection: 'python33', command: 'python'}
+      - {collection: 'rh-ruby23'}
+      - {collection: 'rh-ruby23', command: 'ruby'}
+      - {collection: 'rh-python35'}
+      - {collection: 'rh-python35', command: 'python'}
     scl_packages:
-      - {name: 'ruby193', state: 'latest'}
-      - {name: 'python33', state: 'latest'}
+      - {name: 'rh-ruby23', state: 'latest'}
+      - {name: 'rh-python35', state: 'latest'}
     scl_ruby_gems:
       - {
-        ruby_ver: 'ruby193',
+        ruby_ver: 'rh-ruby23',
         name: 'fast_github',
         state: 'present',
       }
     scl_python_pips:
       - {
-        python_ver: 'python33',
+        python_ver: 'rh-python35',
         name: 'travis',
         state: 'present',
       }

@@ -53,18 +53,18 @@ scl_repo_sclo_rh_baseurl:
   
 # Array of wrapper scripts to create for SCL installed binaries
 scl_wrappers:
-  - {collection: 'ruby193', command: 'ruby'}
-  - {collection: 'python33', command: 'python'}
+  - {collection: 'rh-ruby23', command: 'ruby'}
+  - {collection: 'rh-python35', command: 'python'}
 
 # Array of Collections/Packages to install via SCL
 scl_packages:
-  - {name: 'ruby193', state: 'latest'}
-  - {name: 'python33', state: 'latest'}
+  - {name: 'rh-ruby23', state: 'latest'}
+  - {name: 'rh-python35', state: 'latest'}
 
 # Array (of hashes) of Ruby Gems to manage
 scl_ruby_gems:
   - {
-    ruby_ver: 'ruby193',
+    ruby_ver: 'rh-ruby23',
     name: 'fast_github',
     state: 'present',
     }
@@ -72,7 +72,7 @@ scl_ruby_gems:
 # Array (of hashes) of Python PIPs to manage
 scl_python_pips:
   - {
-    python_ver: 'python33',
+    python_ver: 'rh-python35',
     name: 'snakeoil',
     state: 'present',
     }
@@ -109,10 +109,10 @@ Example Playbook(s)
    
    > If the command key is omited an scl **wrapper** script will be created
    
-   `scl-wrappper-[collection name]` that can be used to call any command with with the collection sourced via SCL. For example listsing all the PIPs installed under SCL python33
+   `scl-wrappper-[collection name]` that can be used to call any command with with the collection sourced via SCL. For example listsing all the PIPs installed under SCL rh-python35
    
    ```shell
-   scl-wrapper-python33 pip list
+   scl-wrapper-rh-python35 pip list
    ```
    
    > If the command key is set an scl **shebang** script will be created that points to the command/binary specified.
@@ -130,7 +130,7 @@ Example Playbook(s)
     - role: ansible-role-scl
       scl_wrappers:
         - {collection: 'rh-ruby22', command: 'ruby'}
-        - {collection: 'python33', command: 'python'}
+        - {collection: 'rh-python35', command: 'python'}
     ```
 
 1. Install SCL collections/packages via [yum module](http://docs.ansible.com/ansible/yum_module.html)
@@ -146,7 +146,7 @@ Example Playbook(s)
     - role: ansible-role-scl
       scl_packages:
         - {name: 'rh-ruby22', state: 'latest'}
-        - {name: 'python33', state: 'latest'}
+        - {name: 'rh-python35', state: 'latest'}
    ```
 1. Manage SCL Python PIPs via [pip module](http://docs.ansible.com/ansible/pip_module.html)
 
@@ -161,7 +161,7 @@ Example Playbook(s)
     - role: ansible-role-scl
       scl_python_pips
         - {
-          python_ver: 'python33',
+          python_ver: 'rh-python35',
           name: 'snakeoil',
           state: 'present',
         }
@@ -181,7 +181,7 @@ Example Playbook(s)
     - role: ansible-role-scl
       scl_ruby_gems
         - {
-          ruby_ver: 'ruby193',
+          ruby_ver: 'rh-ruby23',
           name: 'fast_github',
           state: 'present',
         }
@@ -191,20 +191,20 @@ Example Playbook(s)
    ```yaml
    - role: ansible-role-scl
       scl_wrappers:
-        - {collection: 'ruby193', command: 'ruby'}
-        - {collection: 'python33', command: 'python'}
+        - {collection: 'rh-ruby23', command: 'ruby'}
+        - {collection: 'rh-python35', command: 'python'}
       scl_packages:
-        - {name: 'ruby193', state: 'latest'}
-        - {name: 'python33', state: 'latest'}
+        - {name: 'rh-ruby23', state: 'latest'}
+        - {name: 'rh-python35', state: 'latest'}
       scl_ruby_gems:
         - {
-          ruby_ver: 'ruby193',
+          ruby_ver: 'rh-ruby23',
           name: 'fast_github',
           state: 'present',
         }
       scl_python_pips:
         - {
-          python_ver: 'python33',
+          python_ver: 'rh-python35',
           name: 'snakeoil',
           state: 'present',
         }
