@@ -70,25 +70,25 @@ run() {
     fi
 }
 
-echo " ------------------------------------------------------------------"
-echo "                                                                   "
-echo " You should be running this with "source ./setup.sh"               "
-echo " Running this directly like:                                       "
-echo " * ./setup.sh                                                      "
-echo " * bash ./setup.sh                                                 "
-echo " Will fail to set certain environment variables that may bite you. "
-echo "                                                                   "
-echo "                                                                   "
-echo " Waiting 5 seconds for you make sure you have ran this correctly   "
-echo " Cntrl-C to bail out...                                            "
-echo "                                                                   "
-echo " ------------------------------------------------------------------"
-
-for n in {5..1}; do
-  printf "\r%s " $n
-  sleep 1
-done
-echo -e "\n"
+#echo " ------------------------------------------------------------------"
+#echo "                                                                   "
+#echo " You should be running this with "source ./setup.sh"               "
+#echo " Running this directly like:                                       "
+#echo " * ./setup.sh                                                      "
+#echo " * bash ./setup.sh                                                 "
+#echo " Will fail to set certain environment variables that may bite you. "
+#echo "                                                                   "
+#echo "                                                                   "
+#echo " Waiting 5 seconds for you make sure you have ran this correctly   "
+#echo " Cntrl-C to bail out...                                            "
+#echo "                                                                   "
+#echo " ------------------------------------------------------------------"
+#
+#for n in {5..1}; do
+#  printf "\r%s " $n
+#  sleep 1
+#done
+#echo -e "\n"
 
 # Use existing Python VirtualENV if avilable
 virtualenv_path='.venv'

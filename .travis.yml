@@ -4,14 +4,6 @@ language: python
 python:
   - '2.7'
 env:
-  global:
-    - MOLECULE_VERSION='2.13.1'
-    - DOCKER_VERSION='2.4.2'
-    - DOCKER_PY_VERSION='1.10.6'
-    - TESTINFRA_VERSION='1.12.0'
-    - PYTEST_VERSION='3.5.0'
-    - PYTEST_XDIST_VERSION='1.22.2'
-    - PYTEST_SUGAR_VERSION='0.9.1'
   matrix:
     - ANSIBLE_VERSION='2.5.0'
     - ANSIBLE_VERSION='2.4.0'
@@ -23,15 +15,9 @@ before_install:
   - sudo service docker restart
 install:
   - pip install --upgrade pip
+  - source setup.sh
   - pip install ansible==$ANSIBLE_VERSION
   - ansible --version
-  - pip install molecule==$MOLECULE_VERSION
-  - pip install docker==$DOCKER_VERSION
-  - pip install docker-py==$DOCKER_PY_VERSION
-  - pip install pytest==$PYTEST_VERSION
-  - pip install pytest-xdist==$PYTEST_XDIST_VERSION
-  - pip install pytest-sugar==$PYTEST_SUGAR_VERSION
-  - pip install testinfra==$TESTINFRA_VERSION
 script:
   - molecule test
 notifications:
