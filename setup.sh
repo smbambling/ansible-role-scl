@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+total_nameservers=$(grep -c 'nameserver' /etc/resolv.conf || :)
+total_local_nameservers=$(grep -c 'nameserver 127' /etc/resolv.conf || :)
+if [[ $total_local_nameservers -gt 0 && $total_nameservers -eq 1 ]]; then
+    echo "Warning!"
+    echo "It looks like you only have a loopback nameserver defined in /etc/resolv.conf"
+    echo "DNS resolution inside Docker containers will fail."
+    echo "You will need to set correct resolvers."
+    echo "This is usually caused by NetworkManager using dnsmasq to handle"
+    echo "setting up your resolvers."
+    echo
+    read -rp "Press any key to continue."
+fi
+
 cmd_list=(
   "virtualenv-2.7 virtualenv-2.5 virtualenv"
   "docker docker.io"
@@ -50,25 +63,32 @@ if [[ -z $ANSIBLE_SETUP_SKIP_DOCKER ]]; then
    fi
 fi
 
-echo " ------------------------------------------------------------------"
-echo "                                                                   "
-echo " You should be running this with "source ./setup.sh"               "
-echo " Running this directly like:                                       "
-echo " * ./setup.sh                                                      "
-echo " * bash ./setup.sh                                                 "
-echo " Will fail to set certain environment variables that may bite you. "
-echo "                                                                   "
-echo "                                                                   "
-echo " Waiting 5 seconds for you make sure you have ran this correctly   "
-echo " Cntrl-C to bail out...                                            "
-echo "                                                                   "
-echo " ------------------------------------------------------------------"
+run() {
+    if ! "$@"; then
+      echo $?
+      return $?
+    fi
+}
 
-for n in {5..1}; do
-  printf "\r%s " $n
-  sleep 1
-done
-echo -e "\n"
+#echo " ------------------------------------------------------------------"
+#echo "                                                                   "
+#echo " You should be running this with "source ./setup.sh"               "
+#echo " Running this directly like:                                       "
+#echo " * ./setup.sh                                                      "
+#echo " * bash ./setup.sh                                                 "
+#echo " Will fail to set certain environment variables that may bite you. "
+#echo "                                                                   "
+#echo "                                                                   "
+#echo " Waiting 5 seconds for you make sure you have ran this correctly   "
+#echo " Cntrl-C to bail out...                                            "
+#echo "                                                                   "
+#echo " ------------------------------------------------------------------"
+#
+#for n in {5..1}; do
+#  printf "\r%s " $n
+#  sleep 1
+#done
+#echo -e "\n"
 
 # Use existing Python VirtualENV if avilable
 virtualenv_path='.venv'
@@ -83,9 +103,9 @@ fi
 # shellcheck source=./venv/bin/activate
 source ./.venv/bin/activate
 # Upgrade pip iva pypa, need Pip 9.0.3 or greater that supports TLSv1.2
-curl https://bootstrap.pypa.io/get-pip.py | python
-pip install -U pip
-pip install -r requirements.txt --upgrade
+run curl https://bootstrap.pypa.io/get-pip.py | python
+run pip install -U pip
+run pip install -r requirements.txt --upgrade
 
 echo " ----------------------------------------------------------------------------"
 echo ""
