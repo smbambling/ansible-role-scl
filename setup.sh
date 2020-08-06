@@ -201,6 +201,7 @@ if ! output=$(${python3} -m pip install -r requirements.txt 2>&1); then
   return 1
 else
   echo "Complete"
+  echo "${output}"
 fi
 
 echo -e "\n\n"
