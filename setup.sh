@@ -4,7 +4,7 @@
 #########    Variables    ################
 ##########################################
 
-ansible_venv_dir=".venv"
+ansible_venv_dir="/home/travis/virtualenv"
 
 cmd_list=(
   "python3 python3.8 python3.7 python3.6"
