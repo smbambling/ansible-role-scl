@@ -2,7 +2,7 @@
 sudo: required
 language: python
 python:
-  - '3.7.6'
+  - 3.7
 env:
   matrix:
     - ANSIBLE_VERSION='2.9.0'
@@ -13,10 +13,9 @@ before_install:
   - echo '{"ipv6":true,"fixed-cidr-v6":"2001:db8:1::/64"}' | sudo tee /etc/docker/daemon.json
   - sudo service docker restart
 install:
-  - pip install --upgrade pip
-  - source setup.sh
-  - pip install ansible==$ANSIBLE_VERSION
-  - ansible --version
+  - python3 -m pip install --upgrade pip
+  - python3 -m pip install --upgrade setuptools
+  - python3 -m pip install -r requirements.txt
 script:
   - molecule test
 notifications:
