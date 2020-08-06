@@ -17,6 +17,7 @@ install:
   - source setup.sh
   - pip install ansible==$ANSIBLE_VERSION
   - ansible --version
+  - which ansible
   - molecule --version
   - which molecule
 script:
