@@ -14,6 +14,18 @@
     executable: "/usr/bin/scl enable {{ item.python_ver }} -- easy_install"
   when: scl_python_ver_result.stat.exists
 
+- name: Create {{ item.python_ver }} PIP wrapper executable
+  become: true
+  copy:
+    dest: "/usr/local/bin/scl-pip-{{ item.python_ver }}-executable"
+    content: |
+      #!/bin/sh
+      source scl_source enable {{ item.python_ver }}
+      exec pip "$@"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+
 - name: "Install PIP: {{ item.name }} for Python: {{ item.python_ver }}"
   become: true
   pip:
@@ -21,5 +33,5 @@
     state: "{{ item.state | default('present') }}"
     version: "{{ item.version | default(omit) }}"
     extra_args: "{{ item.extra_args | default(omit) }}"
-    executable: "/usr/bin/scl enable {{ item.python_ver }} -- pip"
+    executable: "/usr/local/bin/scl-pip-{{ item.python_ver }}-executable"
   when: scl_python_ver_result.stat.exists

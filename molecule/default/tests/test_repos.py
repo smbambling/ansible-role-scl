@@ -12,7 +12,7 @@ def test_file_rpm_gpg_key_centos_sig_sclo(host):
     assert file.is_file
     assert 'root' == file.user
     assert 'root' == file.group
-    assert '0644' == oct(file.mode)
+    assert '0o644' == oct(file.mode)
 
 
 def test_yumrepo_sclo_sclo(host):

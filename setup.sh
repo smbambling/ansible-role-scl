@@ -1,36 +1,79 @@
 #!/usr/bin/env bash
 
-total_nameservers=$(grep -c 'nameserver' /etc/resolv.conf || :)
-total_local_nameservers=$(grep -c 'nameserver 127' /etc/resolv.conf || :)
-if [[ $total_local_nameservers -gt 0 && $total_nameservers -eq 1 ]]; then
-    echo "Warning!"
-    echo "It looks like you only have a loopback nameserver defined in /etc/resolv.conf"
-    echo "DNS resolution inside Docker containers will fail."
-    echo "You will need to set correct resolvers."
-    echo "This is usually caused by NetworkManager using dnsmasq to handle"
-    echo "setting up your resolvers."
-    echo
-    read -rp "Press any key to continue."
-fi
+##########################################
+#########    Variables    ################
+##########################################
+
+ansible_venv_dir=".venv"
 
 cmd_list=(
-  "virtualenv-2.7 virtualenv-2.5 virtualenv"
-  "docker docker.io"
+  "python3 python3.8 python3.7 python3.6"
+  "docker"
 )
+
+##########################################
+#########    Functions    ################
+##########################################
+
+function deactivate_py() {
+  echo -e "\nDeactivating Python Virtual Envrionment"
+  deactivate
+}
+
+##########################################
+#########   Warning Tasks  ###############
+##########################################
+
+if [[ -z $ANSIBLE_SETUP_SKIP_WARNING ]]; then
+  cat <<EOF
+---------------------------------------------------------------------
+|                                                                   |
+| You should be running this with "source ./setup.sh"               |
+| Running this directly like:                                       |
+| * ./setup.sh                                                      |
+| * bash ./setup.sh                                                 |
+| Will fail to set certain environment variables that may bite you. |
+|                                                                   |
+|                                                                   |
+| Waiting 5 seconds for you make sure you have ran this correctly   |
+| Cntrl-C to bail out...                                            |
+|                                                                   |
+| To supress this warning in the future, put the following in your  |
+| shell's rc file:                                                  |
+| export ANSIBLE_SETUP_SKIP_WARNING=1                               |
+|                                                                   |
+| To skip the check to verify that docker is installed and running, |
+| put the following in your shell's rc file (similarly for Vagrant  |
+| and Ruby:                                                         |
+| export ANSIBLE_SETUP_SKIP_DOCKER=1                                |
+|                                                                   |
+| Docker won't automatically clean up after itself. If you want to  |
+| have this happen, simply put the following in your shell's rc:    |
+| export ANSIBLE_SETUP_DOCKER_CLEANUP=1                             |
+|                                                                   |
+---------------------------------------------------------------------
+EOF
+  for n in {5..1}; do
+    printf "\r%s " $n
+    sleep 1
+  done
+  echo
+fi
+
+##########################################
+#########   Pre-Check Tasks  #############
+##########################################
 
 # Function to check if referenced command exists
 cmd_exists() {
   if [ $# -eq 0 ]; then
     echo 'WARNING: No command argument was passed to verify exists'
   fi
-
-  #cmds=($(echo "${1}"))
+  # shellcheck disable=SC2207
   cmds=($(printf '%s' "${1}"))
   fail_counter=0
   for cmd in "${cmds[@]}"; do
-    command -v "${cmd}" >&/dev/null # portable 'which'
-    rc=$?
-    if [ "${rc}" != "0" ]; then
+    if ! command -v "${cmd}" >&/dev/null; then  # portable 'which'
       fail_counter=$((fail_counter+1))
     fi
   done
@@ -43,75 +86,130 @@ cmd_exists() {
 
 # Verify that referenced commands exist on the system
 for cmd in "${cmd_list[@]}"; do
-  cmd_exists "${cmd[@]}"
-  # shellcheck disable=SC2181
-  if [ $? -ne 0 ]; then
-    return $?
+  if ! cmd_exists "${cmd[@]}"; then
+    return 1
   fi
 done
 
-# Test whether or not we can talk to the docker daemon
+# Set Python3 Interpreter
+for cmd in "${cmd_list[@]}"; do
+  if [[ "${cmd[*]}" =~ "python" ]]; then
+    for python in $(printf '%s' "${cmd[@]}"); do
+      pythons+=("${python}")
+    done
+    for python in "${pythons[@]}"; do
+      if command -v "${python}" > /dev/null 2>&1; then
+        python3="${python}"
+        break
+      fi
+    done
+  fi
+done
+
+##########################################
+#########   Docker Tasks  ################
+##########################################
+
 if [[ -z $ANSIBLE_SETUP_SKIP_DOCKER ]]; then
-   docker ps > /dev/null
-   rc=$?
-   if [[ $rc -gt 0 ]]; then
-       echo "One of the following cases may have happened:"
-       echo "* You are missing docker."
-       echo "* Your user is not part of the docker group."
-       echo "* The docker daemon is not running."
-       return $rc
-   fi
-fi
+  echo -e "\n#################"
+  echo "# Docker Tasks  #"
+  echo "#################"
+  # Verify nameserver entries for Docker resolution
+  total_nameservers=$(grep -c 'nameserver' /etc/resolv.conf || :)
+  total_local_nameservers=$(grep -c 'nameserver 127' /etc/resolv.conf || :)
+  if [[ $total_local_nameservers -gt 0 && $total_nameservers -eq 1 ]]; then
+      echo "Warning!"
+      echo "It looks like you only have a loopback nameserver defined in /etc/resolv.conf"
+      echo "DNS resolution inside Docker containers will fail."
+      echo "You will need to set correct resolvers."
+      echo "This is usually caused by NetworkManager using dnsmasq to handle"
+      echo "setting up your resolvers."
+      echo
+      read -rp "Press any key to continue."
+  fi
 
-run() {
-    if ! "$@"; then
-      echo $?
-      return $?
+  # Verify that Docker is running and user has access
+  echo -en "\nVerify that Docker is running and user has access..."
+  if ! output=$(docker ps -q); then
+    echo "FAILED"
+    echo "One of the following cases may have happened:"
+    echo "* You are missing docker."
+    echo "* Your user is not part of the docker group."
+    echo "* The docker daemon is not running."
+    return 1
+  else
+    echo "Complete"
+  fi
+
+  if [[ -n $ANSIBLE_SETUP_DOCKER_CLEANUP ]]; then
+    echo -en "Pruning unused Docker objects..."
+    if ! output=$(docker system prune -f --volumes 2>&1); then
+      echo "FAILED"
+      echo "${output}"
+      return 1
+    else
+      echo "Complete"
     fi
-}
-
-#echo " ------------------------------------------------------------------"
-#echo "                                                                   "
-#echo " You should be running this with "source ./setup.sh"               "
-#echo " Running this directly like:                                       "
-#echo " * ./setup.sh                                                      "
-#echo " * bash ./setup.sh                                                 "
-#echo " Will fail to set certain environment variables that may bite you. "
-#echo "                                                                   "
-#echo "                                                                   "
-#echo " Waiting 5 seconds for you make sure you have ran this correctly   "
-#echo " Cntrl-C to bail out...                                            "
-#echo "                                                                   "
-#echo " ------------------------------------------------------------------"
-#
-#for n in {5..1}; do
-#  printf "\r%s " $n
-#  sleep 1
-#done
-#echo -e "\n"
-
-# Use existing Python VirtualENV if avilable
-virtualenv_path='.venv'
-if [ ! -d "${virtualenv_path}" ]; then
-    echo "Failed to find a virtualenv, creating one."
-    virtualenv --no-site-packages ${virtualenv_path}
-else
-    echo "Found existing virtualenv, using that instead."
+  fi
 fi
 
-# shellcheck disable=SC1091
-# shellcheck source=./venv/bin/activate
-source ./.venv/bin/activate
-# Upgrade pip iva pypa, need Pip 9.0.3 or greater that supports TLSv1.2
-run curl https://bootstrap.pypa.io/get-pip.py | python
-run pip install -U pip
-run pip install -r requirements.txt --upgrade
+##########################################
+#########   Python Tasks  ################
+##########################################
 
-echo " ----------------------------------------------------------------------------"
-echo ""
-echo " You are now within a python virtualenv at ${virtualenv_path} "
-echo " This means that all python packages installed will not affect your system. "
-echo " To return _back_ to system python, run deactivate in your shell. "
-echo ""
-echo " To test your changes run 'molecule test' in your shell. "
-echo " ----------------------------------------------------------------------------"
+if [ ! -d "${ansible_venv_dir}" ]; then
+  if ! ${python3} -m venv "${ansible_venv_dir}"; then
+    echo "Failed to create Python3 virtual environment"
+    return 1
+  fi
+fi
+
+# shellcheck source=/dev/null
+if ! . "${ansible_venv_dir}"/bin/activate; then
+  echo "Failed to activate Python3 virtual environment"
+  return 1
+fi
+
+echo -e "\n##################################"
+echo "# Installing Python Requirements #"
+echo "##################################"
+echo -en "\nUpgrading pip..."
+if ! output=$(${python3} -m pip install --upgrade pip 2>&1); then
+  echo "FAILED"
+  echo "${output}"
+  deactivate_py
+  return 1
+else
+  echo "Complete"
+fi
+
+echo -en "\nInstalling/Upgrading setuptools..."
+if ! output=$(${python3} -m pip install --upgrade setuptools 2>&1); then
+  echo "FAILED"
+  echo "${output}"
+  deactivate_py
+  return 1
+else
+  echo "Complete"
+fi
+
+echo -en "\nInstalling Python modules from requirements.txt..."
+if ! output=$(${python3} -m pip install -r requirements.txt 2>&1); then
+  echo "FAILED"
+  echo "${output}"
+  deactivate_py
+  return 1
+else
+  echo "Complete"
+fi
+
+echo -e "\n\n"
+cat <<EOF
+------------------------------------------------------------------------------
+|                                                                            |
+|  You are now within a python3 virtual environment at .venv                 |
+|  This means that all python packages installed will not affect your system |
+|  Run _deactivate_ in your shell to return back to system python            |
+|                                                                            |
+------------------------------------------------------------------------------
+EOF

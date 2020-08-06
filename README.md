@@ -18,21 +18,23 @@ Table of Contents
 
 Overview
 --------
-This role installs and manages the SCL Software Collections repository, packages/collections for Fedora, CentOS, and Scientific Linux. Addtionally it can create wrapper wrapper scripts to make calling the SCL collections binaries
+This role installs and manages the SCL Software Collections repository, packages/collections for Fedora, CentOS, and Scientific Linux. Additionally it can create wrapper wrapper scripts to make calling the SCL collections binaries
 
 Requirements
 ------------
-This role requires Ansible 2.2 or higher and platform requirements are listed in the [metadata](meta/main.yml) file.
+This role has been tested with Ansible 2.9 or higher and platform requirements are listed in the [metadata](meta/main.yml) file.
 
 Compatibility
 -------------
 
 This role has been tested against the following distributions and Ansible version:
 
-|Distribution|Ansible 2.2|Ansible 2.3|Ansible 2.4|Ansible 2.5|
-|------------|-----------|-----------|-----------|-----------|
-|Centos 6|yes|yes|yes|yes|
-|Centos 7|yes|yes|yes|yes|
+-|Distribution|Ansible 2.9|
+-|------------|-----------|
+-|Centos 6|yes|
+-|Centos 7|yes|
+
+If you are looking for a version compatible with an older Ansible release please see the **legacy** branch
 
 Role Variables
 --------------
@@ -109,7 +111,7 @@ Example Playbook(s)
    
    > If the command key is omited an scl **wrapper** script will be created
    
-   `scl-wrappper-[collection name]` that can be used to call any command with with the collection sourced via SCL. For example listsing all the PIPs installed under SCL rh-python35
+   `scl-wrappper-[collection name]` that can be used to call any command with with the collection sourced via SCL. For example listing all the PIPs installed under SCL rh-python35
    
    ```shell
    scl-wrapper-rh-python35 pip list
@@ -257,9 +259,7 @@ Note: This role is currently only tested against the following OS and Ansible ve
 - CentOS 7.x
 
 #### Ansible Versions
-- 2.1.0
-- 2.2.2
-- latest
+- 2.9.0
 
 License
 -------

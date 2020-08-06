@@ -12,7 +12,7 @@ def test_file_scl_wrapper_rh_ruby23(host):
     assert file.is_file
     assert 'root' == file.user
     assert 'root' == file.group
-    assert '0755' == oct(file.mode)
+    assert '0o755' == oct(file.mode)
 
 
 def test_file_scl_shebang_rh_ruby23(host):
@@ -21,7 +21,7 @@ def test_file_scl_shebang_rh_ruby23(host):
     assert file.is_file
     assert 'root' == file.user
     assert 'root' == file.group
-    assert '0755' == oct(file.mode)
+    assert '0o755' == oct(file.mode)
 
 
 def test_file_scl_wrapper_rh_python35(host):
@@ -30,7 +30,7 @@ def test_file_scl_wrapper_rh_python35(host):
     assert file.is_file
     assert 'root' == file.user
     assert 'root' == file.group
-    assert '0755' == oct(file.mode)
+    assert '0o755' == oct(file.mode)
 
 
 def test_file_scl_shebang_rh_python35(host):
@@ -39,4 +39,4 @@ def test_file_scl_shebang_rh_python35(host):
     assert file.is_file
     assert 'root' == file.user
     assert 'root' == file.group
-    assert '0755' == oct(file.mode)
+    assert '0o755' == oct(file.mode)

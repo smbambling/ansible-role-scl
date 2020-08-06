@@ -2,13 +2,10 @@
 sudo: required
 language: python
 python:
-  - '2.7'
+  - '3.7.6'
 env:
   matrix:
-    - ANSIBLE_VERSION='2.5.0'
-    - ANSIBLE_VERSION='2.4.0'
-    - ANSIBLE_VERSION='2.3.0'
-    - ANSIBLE_VERSION='2.2.0'
+    - ANSIBLE_VERSION='2.9.0'
 services:
   - docker
 before_install:
