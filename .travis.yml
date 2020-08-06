@@ -15,11 +15,10 @@ before_install:
 install:
   - pip install --upgrade pip
   - source setup.sh
-  - pip install ansible==$ANSIBLE_VERSION
-  - ansible --version
+    #  - pip install ansible==$ANSIBLE_VERSION
   - which ansible
-  - molecule --version
-  - which molecule
+    #- molecule --version
+    #- which molecule
 script:
   - molecule test
 notifications:
