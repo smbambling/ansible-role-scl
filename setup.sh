@@ -158,51 +158,12 @@ fi
 ##########################################
 
 if [ ! -d "${ansible_venv_dir}" ]; then
-  if ! ${python3} -m venv "${ansible_venv_dir}"; then
-    echo "Failed to create Python3 virtual environment"
-    return 1
-  fi
+  ${python3} -m venv "${ansible_venv_dir}"
 fi
-
-# shellcheck source=/dev/null
-if ! . "${ansible_venv_dir}"/bin/activate; then
-  echo "Failed to activate Python3 virtual environment"
-  return 1
-fi
-
-echo -e "\n##################################"
-echo "# Installing Python Requirements #"
-echo "##################################"
-echo -en "\nUpgrading pip..."
-if ! output=$(${python3} -m pip install --upgrade pip 2>&1); then
-  echo "FAILED"
-  echo "${output}"
-  deactivate_py
-  return 1
-else
-  echo "Complete"
-fi
-
-echo -en "\nInstalling/Upgrading setuptools..."
-if ! output=$(${python3} -m pip install --upgrade setuptools 2>&1); then
-  echo "FAILED"
-  echo "${output}"
-  deactivate_py
-  return 1
-else
-  echo "Complete"
-fi
-
-echo -en "\nInstalling Python modules from requirements.txt..."
-if ! output=$(${python3} -m pip install -r requirements.txt 2>&1); then
-  echo "FAILED"
-  echo "${output}"
-  deactivate_py
-  return 1
-else
-  echo "Complete"
-  echo "${output}"
-fi
+. "${ansible_venv_dir}"/bin/activate
+${python3} -m pip install --upgrade pip
+${python3} -m pip install --upgrade setuptools
+${python3} -m pip install -r requirements.txt
 
 echo -e "\n\n"
 cat <<EOF
