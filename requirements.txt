@@ -28,7 +28,7 @@ click==7.1.1
 click-completion==0.5.2
 colorama==0.4.3
 cookiecutter==1.7.0
-cryptography==2.9
+cryptography==3.2
 distlib==0.3.0
 dnspython==1.16.0
 entrypoints==0.3
