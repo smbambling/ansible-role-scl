@@ -53,7 +53,7 @@ packaging==20.3
 paramiko==2.7.1
 pathspec==0.8.0
 pexpect==4.8.0
-pip==20.0.2
+pip==21.1
 pluggy==0.13.1
 poyo==0.5.0
 pre-commit==2.6.0
