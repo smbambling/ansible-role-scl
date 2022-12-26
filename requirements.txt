@@ -2,7 +2,7 @@
 ansible==2.9.6
 molecule==2.22
 docker==4.2.0
-wheel==0.34.2
+wheel==0.38.1
 python-vagrant==0.5.15
 flaky==3.6.1
 pytest==5.4.1
